@@ -4,20 +4,7 @@ Drop a character into a Gaussian-splat scene and have them walk on the visible f
 
 The floor reference is derived **at runtime, in the browser**, by sampling splat-centroid density. The same `.spz` (or `.ply` / `.splat` / `.ksplat`) acts as both the visual environment and the collision source.
 
-**🟢 Live demo: https://omarintern.github.io/gsplat-grounding/**
-
-Drag any splat file onto the page. A capsule character spawns at the world centroid and walks back and forth, feet snapped to the heightmap derived from your splat's data.
-
-## Run locally
-
-```bash
-git clone https://github.com/omarintern/gsplat-grounding
-cd gsplat-grounding
-python3 -m http.server 8000
-# open http://localhost:8000
-```
-
-No `npm install`, no build step. Three.js and the splat renderer load from CDNs via an importmap.
+**Project page: https://omaralrum.github.io/gsplat-grounding/**
 
 ## Use it in your own project
 
@@ -138,7 +125,7 @@ For multi-floor support, the heightmap would need to store *all* dense z-bands p
 
 ## Splat orientation
 
-Splats from different sources use different up-axes. The demo applies `splatRoot.rotation.x = -Math.PI / 2` because Marble Labs exports Y-down. For other sources:
+Splats from different sources use different up-axes. The demo code applies `splatRoot.rotation.x = -Math.PI / 2` because Marble Labs exports Y-down. For other sources:
 
 | source | orientation | rotation |
 |---|---|---|
@@ -150,7 +137,7 @@ If your character ends up upside-down, flip the sign of the rotation.
 
 ## Performance
 
-The current pipeline runs the splat sort on the CPU (`gpuAcceleratedSort: false`) because mkkellogg's GPU-sort path needs cross-origin-isolation headers (`Cross-Origin-Opener-Policy`, `Cross-Origin-Embedder-Policy`) that `python -m http.server` doesn't set. Expect 10–30 fps on a 500k splat.
+The demo code in [`src/main.js`](src/main.js) runs the splat sort on the CPU (`gpuAcceleratedSort: false`) because mkkellogg's GPU-sort path needs cross-origin-isolation headers (`Cross-Origin-Opener-Policy`, `Cross-Origin-Embedder-Policy`) that a plain static host doesn't send. Expect 10–30 fps on a 500k splat.
 
 For ~60 fps with the GPU-sort path, you'll need to:
 
